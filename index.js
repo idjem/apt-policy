@@ -1,4 +1,5 @@
 var cp = require('child_process');
+var forIn = require('mout/object/forIn');
 
 module.exports = function(packages , chain){
   packages = packages || [];
@@ -17,7 +18,7 @@ module.exports = function(packages , chain){
 
   pross.on('close', (code) => {
     var z = data.split("\n");
-    packages.forEach(function(package){
+    forIn(packages , function(package){
       var t = z.indexOf(package + ":");
       if(t !== -1)
         packageVersion[package] = {Installed : z[t+1].split(": ")[1] , Candidate : z[t+2].split(": ")[1]};

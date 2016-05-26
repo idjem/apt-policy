@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/idjem/apt-policy/issues"
   },
-  "homepage": "https://github.com/idjem/apt-policy#readme"
+  "homepage": "https://github.com/idjem/apt-policy#readme",
+  "dependencies": {
+    "mout": "^1.0.0"
+  }
 }
