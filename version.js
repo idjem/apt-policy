@@ -1,6 +1,6 @@
 "use strict";
 
-const cp = require('child_process');
+const cp    = require('child_process');
 const forIn = require('mout/object/forIn');
 
 module.exports = function(package_name , chain) {
@@ -15,19 +15,17 @@ module.exports = function(package_name , chain) {
   });
 
   pross.on("error", function(e) {
-    chain(e);
+    return chain(e);
   });
 
   pross.on('close', (code) => {
     var z = data.split("\n");
-    forIn(packages , function(package) {
-      var t = z.indexOf(package + ":");
-      if(t !== -1) {
-        packageVersion = z[t + 1].split(": ")[1]
-      } else {
-        chain("not in apt cache");
-      }
-    });
+    var t = z.indexOf(package_name + ":");
+    if(t !== -1) {
+      packageVersion = z[t + 1].split(": ")[1]
+    } else {
+      return chain("not in apt cache");
+    }
     chain(null, packageVersion);
   });
 

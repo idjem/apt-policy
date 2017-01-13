@@ -1,6 +1,6 @@
 "use strict";
 
-const cp = require('child_process');
+const cp    = require('child_process');
 const forIn = require('mout/object/forIn');
 
 module.exports = function(packages , chain) {
