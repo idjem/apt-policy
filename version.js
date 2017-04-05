@@ -4,10 +4,10 @@ const cp    = require('child_process');
 const forIn = require('mout/object/forIn');
 
 module.exports = function(package_name , chain) {
-
   chain = chain || Function.prototype;
   var packageVersion = null;
-  var pross = cp.spawn("apt-cache" ,["policy", package_name]);
+  var version_title = 'Version:';
+  var pross = cp.exec("dpkg -s " + package_name + " |  grep ^" + version_title);
   var data  =  '';
 
   pross.stdout.on('data', (d) => {
@@ -19,14 +19,12 @@ module.exports = function(package_name , chain) {
   });
 
   pross.on('close', (code) => {
-    var z = data.split("\n");
-    var t = z.indexOf(package_name + ":");
-    if(t !== -1) {
-      packageVersion = z[t + 1].split(": ")[1]
-    } else {
+    var packageVersion = data.replace(version_title, '').trim();
+    if(!packageVersion || code != 0)
       return chain("not in apt cache");
-    }
+
     chain(null, packageVersion);
+
   });
 
 };
