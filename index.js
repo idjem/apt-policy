@@ -22,12 +22,12 @@ module.exports = function(packages , chain) {
 
   pross.on('close', (code) => {
     var z = data.split("\n");
-    forIn(packages , function(package) {
-      var t = z.indexOf(package + ":");
+    forIn(packages , function(package_name) {
+      var t = z.indexOf(package_name + ":");
       if(t !== -1)
-        packageVersion[package] = {Installed : z[t + 1].split(": ")[1], Candidate : z[t + 2].split(": ")[1]};
+        packageVersion[package_name] = {Installed : z[t + 1].split(": ")[1], Candidate : z[t + 2].split(": ")[1]};
       else
-        packageVersion[package] = {Installed : "not in apt cache", Candidate : "NOT IN APT CACHE"}
+        packageVersion[package_name] = {Installed : "not in apt cache", Candidate : "NOT IN APT CACHE"}
     });
     chain(null, packageVersion);
   });
